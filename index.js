@@ -53,16 +53,20 @@ const dikiContent = async response => {
               const trans = cheerio(translationNode)
                 .find('.nativeToForeignMeanings>li>.hw')
                 .toArray().map(d => cheerio(d).text())
+              const sentences = $(translationNode).find('.exampleSentence')
+                .map((l, sentence) => removeSpaces($(sentence).clone().children().remove().end().text())).toArray()
               if (!word.speeches) {
                 if (!word.translations) { word.translations = [] }
                 word.translations.push({
                   translation,
-                  ...(trans.length > 0 && { trans })
+                  ...(trans.length > 0 && { trans }),
+                  sentences
                 })
               } else {
                 speech.translations.push({
                   translation,
-                  ...(trans.length > 0 && { trans })
+                  ...(trans.length > 0 && { trans }),
+                  sentences
                 })
               }
             }
