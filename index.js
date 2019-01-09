@@ -54,7 +54,12 @@ const dikiContent = async response => {
                 .find('.nativeToForeignMeanings>li>.hw')
                 .toArray().map(d => cheerio(d).text())
               const sentences = $(translationNode).find('.exampleSentence')
-                .map((l, sentence) => removeSpaces($(sentence).clone().children().remove().end().text())).toArray()
+                .map((l, sentence) => {
+                  return {
+                    value: removeSpaces($(sentence).clone().children().remove().end().text()),
+                    url: 'https://www.diki.pl' + $(sentence).find('.audioIcon').first().attr('data-audio-url')
+                  }
+                }).toArray()
               if (!word.speeches) {
                 if (!word.translations) { word.translations = [] }
                 word.translations.push({
