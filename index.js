@@ -65,19 +65,15 @@ const dikiContent = async response => {
                     url: 'https://www.diki.pl' + $(sentence).find('.audioIcon').first().attr('data-audio-url')
                   }
                 }).toArray()
+              const translationObj = Object.assign({},
+                { translation, sentences },
+                trans.length > 0 ? { trans } : {}
+              )
               if (!word.speeches) {
                 if (!word.translations) { word.translations = [] }
-                word.translations.push({
-                  translation,
-                  ...(trans.length > 0 && { trans }),
-                  sentences
-                })
+                word.translations.push(translationObj)
               } else {
-                speech.translations.push({
-                  translation,
-                  ...(trans.length > 0 && { trans }),
-                  sentences
-                })
+                speech.translations.push(translationObj)
               }
             }
           )
