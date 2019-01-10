@@ -24,7 +24,12 @@ const dikiContent = async response => {
       const entryType = entry.attr('class')
       switch (entryType) {
         case 'hws':
-          word.name = removeSpaces(entrySection.find('.hws>h1>span.hw').text().trim())
+          const names = entrySection.find('.hws>h1>span.hw').toArray()
+            .map(item => removeSpaces($(item).text().trim()))
+          word.name = names[0]
+          if (names.length > 1) {
+            word.otherNames = names.slice(1)
+          }
           words.push(word)
           break
         case 'partOfSpeechSectionHeader':
