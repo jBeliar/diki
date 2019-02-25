@@ -48,13 +48,13 @@ const dikiContent = async response => {
             (k, translationNode) => {
               let translation = cheerio(translationNode)
                 .children('span.hw')
-                .toArray().map(d => cheerio(d).text()).join(', ')
+                .toArray().map(d => cheerio(d).text())
               if (translation.length === 0) {
                 translation = cheerio(translationNode).find('span.hiddenNotForChildrenMeaning')
                   .children('span.hw')
-                  .toArray().map(d => cheerio(d).text()).join(', ')
+                  .toArray().map(d => cheerio(d).text())
               }
-              translation = removeSpaces(translation)
+              translation = translation.map(tr => removeSpaces(tr))
               const trans = cheerio(translationNode)
                 .find('.nativeToForeignMeanings>li>.hw')
                 .toArray().map(d => cheerio(d).text())
