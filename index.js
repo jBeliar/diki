@@ -62,7 +62,7 @@ const dikiContent = async response => {
                 .map((l, sentence) => {
                   return {
                     value: removeSpaces($(sentence).clone().children().remove().end().text()),
-                    url: 'https://www.diki.pl' + $(sentence).find('.audioIcon').first().attr('data-audio-url')
+                    url: $(sentence).find('.audioIcon').first().length > 0 ? ('https://www.diki.pl' + $(sentence).find('.audioIcon').first().attr('data-audio-url')) : null
                   }
                 }).toArray()
               const translationObj = Object.assign({},
