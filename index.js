@@ -10,7 +10,11 @@ const removeSpaces = query => {
 const dikiContent = async response => {
   const $ = cheerio.load(response.data)
   const dictionaryEntries = $('.diki-results-left-column .dictionaryEntity')
-  const audioUrl = 'http://www.diki.pl' + $($('.dikiBackgroundBannerPlaceholder>script').get(1)).html().trim().replace("Sound.playAndThen('", "").replace("');", "")
+  const maybyAudioUrl = $($('.dikiBackgroundBannerPlaceholder').children('script').get(1)).html().trim()
+  let audioUrl = null
+  if (maybyAudioUrl.startsWith('Sound.playAndThen(')) {
+    audioUrl = 'http://www.diki.pl' + maybyAudioUrl.replace("Sound.playAndThen('", "").replace("');", "")
+  }
 
   let words = []
   dictionaryEntries.each((i, dicitonaryEntry) => {
